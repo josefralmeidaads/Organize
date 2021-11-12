@@ -8,8 +8,8 @@ import theme from './src/styles/theme';
 const App: React.FC = () => {
   return (
   <ThemeProvider theme={theme}>  
-   <StatusBar backgroundColor={theme.colors.blue_500}/>
-   <Router />
+    <StatusBar backgroundColor={theme.colors.blue_500}/>
+    <Router />
   </ThemeProvider>
   );
 }

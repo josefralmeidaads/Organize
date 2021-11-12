@@ -10,6 +10,10 @@ const ViewLogin: React.FC = ({ navigation }: any) => {
     navigation.navigate('ViewTypePerson');
   }
 
+  const handleMoveToViewMain = () => {
+    navigation.navigate('AuthRoutes');
+  }
+
   return (
     <View style={styles.container}>
       <View>
@@ -39,7 +43,8 @@ const ViewLogin: React.FC = ({ navigation }: any) => {
         />
       </View>
       <View style={styles.view_buttons}>
-        <Button 
+        <Button
+          onPress={handleMoveToViewMain} 
           buttonStyle={styles.btn_acessar}
           titleStyle={styles.btn_acessar_text}
           title="Acessar"
