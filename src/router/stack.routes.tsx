@@ -1,6 +1,7 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AuthRoutes from '../router/tab.routes';
+import StackAuthRoutes from '../router/stack.auth.routes';
 import ViewStart from '../screens/ViewStart';
 import ViewLogin from '../screens/ViewLogin';
 import ViewTypePerson from '../screens/ViewTypePerson';

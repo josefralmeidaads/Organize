@@ -1,11 +1,10 @@
 import React from 'react';
-import { View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ViewMain from '../screens/ViewMain';
 import theme from '../styles/theme';
 import { Icon } from 'react-native-elements';
 import ViewSessions from '../screens/ViewSessions';
-import ViewAboutMe from '../screens/ViewAboutMe';
+import StackAuthRoutes from './stack.auth.routes';
 
 const Tab = createBottomTabNavigator();
 
@@ -55,8 +54,8 @@ const AuthRoutes: React.FC = () => {
         }}
       />
       <Tab.Screen 
-        name="ViewAboutMe" 
-        component={ViewAboutMe}
+        name="StackAuthRoutes" 
+        component={StackAuthRoutes}
         options={{
           tabBarIconStyle: {
             marginBottom: -20
