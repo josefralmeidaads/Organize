@@ -5,10 +5,14 @@ import theme from '../styles/theme';
 import { Icon } from 'react-native-elements';
 import ViewSessions from '../screens/ViewSessions';
 import StackAuthRoutes from './stack.auth.routes';
+import { useSelector } from 'react-redux';
+import { IState } from '../store';
+import { IUserLogged } from '../store/modules/userLogged/types';
 
 const Tab = createBottomTabNavigator();
 
 const AuthRoutes: React.FC = () => {
+  const { paciente } = useSelector<IState, IUserLogged>(state => state.userLogged);
   return (
     <Tab.Navigator
       screenOptions={{
@@ -21,7 +25,7 @@ const AuthRoutes: React.FC = () => {
         },
       }}
     >
-      <Tab.Screen 
+      {paciente !== null && <Tab.Screen 
         name="ViewMain" 
         component={ViewMain}
         options={{
@@ -36,7 +40,7 @@ const AuthRoutes: React.FC = () => {
             <Icon tvParallaxProperties type="font-awesome-5" color={color} size={size} name="address-card"/>
           ))
         }}
-      />
+      />}
       <Tab.Screen 
         name="ViewSessions" 
         component={ViewSessions}

@@ -9,7 +9,6 @@ const ViewAboutMe: React.FC = ({ navigation }: any) => {
   const handleMoveToViewAboutMeinfo = () => {
     navigation.navigate('ViewAboutMeInfo')
   }
-
   return (
     <View style={styles.container}>
       <NavHeader />

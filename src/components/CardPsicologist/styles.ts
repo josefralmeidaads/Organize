@@ -16,6 +16,7 @@ export const styles = StyleSheet.create({
     width: 90,
     height: 90,
     marginRight: 10,
+    borderRadius: 45,
   },
   info_psicologist: {
 

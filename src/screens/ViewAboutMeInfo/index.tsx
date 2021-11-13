@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { RouteProp, ParamListBase, useRoute } from '@react-navigation/core';
 
@@ -13,7 +13,17 @@ interface IRouter extends RouteProp<ParamListBase, string> {
   }
 }
 
+interface IUser {
+  nome: string;
+  cpf: string;
+  crp: string;
+  senha: string;
+  estado: string;
+  cidade: string;
+}
+
 const ViewAboutMeInfo: React.FC = ({ navigation }: any) => {
+  const [ user, setUser ] = useState({} as IUser);
   const router = useRoute<IRouter>();
   const type = router?.params?.type;
   return (
@@ -27,33 +37,66 @@ const ViewAboutMeInfo: React.FC = ({ navigation }: any) => {
         <Text style={styles.title}>Organize</Text>
       </View>
       <ScrollView>
-        <Inputs 
+        <Inputs
+          onChangeText={
+            (text) =>  setUser({
+              ...user,
+              nome: text
+            })
+          }
+          value={user.nome} 
           placeholder="Digite seu Nome"
         />
-        <Inputs 
+        <Inputs
+          onChangeText={
+            (text) =>  setUser({
+              ...user,
+              cpf: text
+            })
+          }
+          value={user.cpf} 
           placeholder="Digite seu Cpf"
         />
         {type === 'psicologo' && 
-          <Inputs 
+          <Inputs
+          onChangeText={
+            (text) =>  setUser({
+              ...user,
+              crp: text
+            })
+          }
+          value={user.crp} 
           placeholder="Digite seu CRP"
         />}
-        <Inputs 
+        <Inputs
+          onChangeText={
+            (text) =>  setUser({
+              ...user,
+              senha: text
+            })
+          } 
+          value={user.senha} 
           placeholder="Digite sua Senha"
         />
         <Inputs 
+          onChangeText={
+            (text) =>  setUser({
+              ...user,
+              estado: text
+            })
+          } 
+          value={user.estado}
           placeholder="Digite seu Estado"
         />
-        <Inputs 
+        <Inputs
+          onChangeText={
+            (text) =>  setUser({
+              ...user,
+              cidade: text
+            })
+          } 
+          value={user.cidade}
           placeholder="Digite seu Cidade"
-        />
-        <Inputs 
-          placeholder="Digite seu Número"
-        />
-        <Inputs 
-          placeholder="Digite seu Bairro"
-        />
-        <Inputs 
-          placeholder="Digite seu Cep"
         />
       </ScrollView>
       <View style={styles.buttons}>

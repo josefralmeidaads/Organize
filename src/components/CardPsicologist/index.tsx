@@ -4,25 +4,27 @@ import { Image, Text, View } from 'react-native';
 import { styles } from './styles';
 import avatar from '../../assets/psicologo2.png';
 import { Button } from 'react-native-elements';
+import { IPsicologo } from '../../store/modules/userLogged/types';
 
-const CardPsicologist: React.FC = () => {
+
+const CardPsicologist: React.FC = ({ psicologo }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Image source={avatar} style={styles.avatar}/>
+        <Image source={{ uri: (psicologo.psicologo.imagem) }} style={styles.avatar}/>
         <View style={styles.info_psicologist}>
           <Text style={styles.psico_name}>
-            Larissa Maria Toledo Alves
+            {psicologo.psicologo.nome}
           </Text>
           <Text style={styles.psico_price}>
-            R$90
+            R${psicologo.psicologo.valor}
           </Text>
           <Text style={styles.psico_crp}>
-            CRP: 04/39973
+            CRP: {psicologo.psicologo.crp}
           </Text>
           <View style={styles.psico_adress}>
             <Text style={styles.psico_adress_text}>
-              Ubá | Minas Gerais
+              {psicologo.psicologo.cidade} | {psicologo.psicologo.estado}
             </Text>
           </View>
         </View>
@@ -33,9 +35,7 @@ const CardPsicologist: React.FC = () => {
           Especialidade:
         </Text>
         <Text style={styles.experience_text}>
-          Estresse, Ansiedade, Autoconhecimento, Relacionamentos/Família,
-          Depressão, Doenças Emocionais, Doenças Mentais,
-          Traumas e Abusos, Transtorno de Personalidade.
+          {psicologo.psicologo.sobreMim}
         </Text>
       </View>
       <Button
