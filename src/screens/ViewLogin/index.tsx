@@ -24,7 +24,7 @@ const ViewLogin: React.FC = ({ navigation }: any) => {
   const handleMoveToViewMain = async() => {
     try{
       const response = await api.post('autenticacao', { cpf: credentials.cpf, senha: credentials.senha });
-      AsyncStorage.setItem('@user:', JSON.stringify(response.data));
+      await AsyncStorage.setItem('@user:', JSON.stringify(response.data));
       dispatch(addUserLogged(response.data))
       return navigation.navigate('AuthRoutes');
     }catch(err){

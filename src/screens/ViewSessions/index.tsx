@@ -1,22 +1,79 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList, Image, Text, View } from 'react-native';
+import { useSelector } from 'react-redux';
 
 import { styles } from './styles';
-import avatar from '../../assets/psicologo2.png';
+import avatar from '../../assets/avatar_no_image.png';
 import CardSession from '../../components/CardSession';
+import { IState } from '../../store';
+import { IUserLogged } from '../../store/modules/userLogged/types';
+import api from '../../services/api';
+import { ISession } from '../../components/CardSession/types';
 
 const ViewSessions: React.FC = () => {
+  const userLogged = useSelector<IState, IUserLogged>(state => state.userLogged);
+  const [sessions, setSessions] = useState<ISession[]>([]);
   const data = [
     { id: 0, number: 1 },
     { id: 1, number: 2 },
   ];
+  useEffect(() => {
+    const loadDataPaciente = async() => {
+      const response = await api.get(`agendamento/paciente/${userLogged?.paciente?.id}`);
+
+      setSessions(response.data);
+    }
+
+    const loadDataPsiclogo = async() => {
+      const response = await api.get(`agendamento/psicologo/${userLogged?.psicologo?.id}`);
+      setSessions(response.data);
+    }
+    
+    if(userLogged.paciente !== null){
+      loadDataPaciente();
+    }else {
+      loadDataPsiclogo();
+    }
+  }, [])
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.name}>
-          Olá Larissa Toledo
+          Olá {
+            userLogged?.paciente?.nome ||
+            userLogged?.psicologo?.nome
+          }
         </Text>
-        <Image source={avatar}/>
+        {(userLogged.paciente !== null) && (userLogged.paciente.imagem === null) && 
+          <Image source={avatar} style={{
+          width: 80,
+          height: 80,
+          borderRadius: 40,
+        }}/>}
+
+        {(userLogged.paciente !== null) && (userLogged.paciente.imagem !== null) && 
+          <Image source={{ uri: userLogged.paciente.imagem }} style={{
+          width: 80,
+          height: 80,
+          borderRadius: 40,
+        }}/>}
+
+        {(userLogged.psicologo !== null) && (userLogged.psicologo.imagem === null) && 
+          <Image source={avatar} style={{
+          width: 80,
+          height: 80,
+          borderRadius: 40,
+        }}/>}
+
+        {(userLogged.psicologo !== null) && (userLogged.psicologo.imagem !== null) && 
+          <Image source={{ uri: userLogged.psicologo.imagem }} style={{
+          width: 80,
+          height: 80,
+          borderRadius: 40,
+        }}/>}
+
+        
+
       </View>
 
       <View>
@@ -29,14 +86,19 @@ const ViewSessions: React.FC = () => {
       </View>
 
       <FlatList 
-        data={data}
+        data={sessions}
         style={{
           marginTop: 20,
         }}
         keyExtractor={item => String(item.id)}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
-          <CardSession />
+          <CardSession 
+            data={item.hora} 
+            hora={item.hora}
+            paciente={item.paciente}
+            psicologo={item.psicologo}
+          />
         )}
       />
     </View>

@@ -17,10 +17,7 @@ export const styles = StyleSheet.create({
     fontSize: 24,
     fontFamily: 'Roboto-Bold',
     textAlignVertical: 'center',
-  },
-  avatar: {
-    width: 90,
-    height: 90,
+    width: 250,
   },
   title_pt_1: {
     fontFamily: 'Roboto-Light',

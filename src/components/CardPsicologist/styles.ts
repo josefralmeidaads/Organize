@@ -58,12 +58,14 @@ export const styles = StyleSheet.create({
   button: {
     backgroundColor: theme.colors.blue_500,
     borderRadius: 5,
-    
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   button_text: {
     color: theme.colors.gray_500,
     fontSize: 20,
     fontFamily: 'Roboto-Bold',
+    textAlign: 'center',
   },
   button_container: {
     paddingVertical: 10,

@@ -26,7 +26,6 @@ const ViewMain: React.FC = () => {
     loadData();
   }, []);
 
-  console.log('Array psicologo ->>', psicologists);
   return (
     <View style={styles.container}>
       <NavHeader/>
