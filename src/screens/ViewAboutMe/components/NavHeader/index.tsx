@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, View, TouchableOpacity, Alert } from 'react-native';
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import ImagePicker, { ImageOrVideo } from 'react-native-image-crop-picker';
 
 import { styles } from './styles';
 import Logo from '../../../../assets/Component1.svg';
@@ -12,38 +12,23 @@ import api from '../../../../services/api';
 
 const NavHeader: React.FC = () => {
   const userLogged = useSelector<IState, IUserLogged>(state => state.userLogged);
+  
   const imagePickerCallback = async() => {
-    const result = await launchImageLibrary({
-      mediaType: "photo",
-      includeBase64: true,
-      quality: 1,
-    });
-    const imagem = result?.assets[0];
-    await uploadImage(imagem);
-  }
-
-  const uploadImage = async(imagem: any) => {
-    const data = new FormData();
-    data.append('imagem', imagem)
-    console.log('Data ->', data);
-    if(userLogged.paciente !== null){
-      try{
-        const response = await api.post(`imagem/paciente/${userLogged.id}`, data);
-        return Alert.alert('Sucesso', "Imagem Cadastrada Com Sucesso")
-      }catch(err){
-        console.log('Err ->', err)
-        console.log('ErrMsg ->', err.response.data)
-        return Alert.alert('Error');
-      }
-    }else {
-      try{
-        const response = await api.post(`imagem/psicologo/${userLogged.id}`, data);
-        return Alert.alert('Sucesso', "Imagem Cadastrada Com Sucesso")
-      }catch(err){
-        console.log('Err ->', err)
-        console.log('ErrMsg ->', err.response.data)
-        return Alert.alert('Error');
-      }
+    const formData = new FormData();
+    const result = await ImagePicker.openPicker({});
+    let photo = { uri: result.path};
+    
+    formData.append('file', { uri: photo.uri })
+    
+    try {
+      const { data } = await api.post(`imagem/paciente/${userLogged.paciente?.id}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+    }catch(err){
+      console.log('Err ->', err);
+      console.log('ErrMsg ->', err?.response?.data);
     }
   }
 

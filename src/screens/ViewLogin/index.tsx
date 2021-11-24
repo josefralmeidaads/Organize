@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Alert, Text, View, AsyncStorage } from 'react-native';
+import { Alert, Text, View } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';
 import { Button, Input } from 'react-native-elements';
 
