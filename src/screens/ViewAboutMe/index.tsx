@@ -17,6 +17,7 @@ const ViewAboutMe: React.FC = ({ navigation }: any) => {
         <BtnOptions title="Meu Trabalho"/>
         <BtnOptions 
           title="Sair"
+          onPress={() => navigation.navigate('ViewLogin')}
         />
       </View>
     </View>

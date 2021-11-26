@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, View } from 'react-native';
+import { FlatList, RefreshControl, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import CardPsicologist from '../../components/CardPsicologist';
 import api from '../../services/api';
@@ -12,6 +12,7 @@ import { styles } from './styles';
 const ViewMain: React.FC = () => {
   const userLogged = useSelector<IState, IUserLogged>(state => state.userLogged)
   const [psicologists, setPsicologists] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
   
   useEffect(() => {
     const loadData = async() => {
@@ -26,6 +27,18 @@ const ViewMain: React.FC = () => {
     loadData();
   }, []);
 
+  const _onRefresh = async() => {
+    setRefreshing(true);
+    const response = await api.get('usuarios/todos');
+      const psicologos = response.data.filter(item => {
+        if(item.psicologo !== null ){
+          return item.psicologo
+        }
+      });
+      setPsicologists(psicologos);
+      setRefreshing(false);
+  } 
+
   return (
     <View style={styles.container}>
       <NavHeader/>
@@ -35,6 +48,12 @@ const ViewMain: React.FC = () => {
         renderItem={({ item }) => (
           <CardPsicologist psicologo={item}/>
         )}
+        refreshControl={
+          <RefreshControl 
+            refreshing={refreshing}
+            onRefresh={_onRefresh}
+          />
+        }
       />
     </View>
   );

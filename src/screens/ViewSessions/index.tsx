@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, Image, Text, View } from 'react-native';
+import { FlatList, Image, RefreshControl, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 
 import { styles } from './styles';
@@ -13,14 +13,11 @@ import { ISession } from '../../components/CardSession/types';
 const ViewSessions: React.FC = () => {
   const userLogged = useSelector<IState, IUserLogged>(state => state.userLogged);
   const [sessions, setSessions] = useState<ISession[]>([]);
-  const data = [
-    { id: 0, number: 1 },
-    { id: 1, number: 2 },
-  ];
+  const [refreshing, setRefreshing] = useState(false);
+  
   useEffect(() => {
     const loadDataPaciente = async() => {
       const response = await api.get(`agendamento/paciente/${userLogged?.paciente?.id}`);
-
       setSessions(response.data);
     }
 
@@ -35,6 +32,27 @@ const ViewSessions: React.FC = () => {
       loadDataPsiclogo();
     }
   }, [])
+
+  const _onRefresh = async() => {
+    setRefreshing(true);
+    const loadDataPaciente = async() => {
+      const response = await api.get(`agendamento/paciente/${userLogged?.paciente?.id}`);
+      setSessions(response.data);
+      setRefreshing(true);
+    }
+
+    const loadDataPsiclogo = async() => {
+      const response = await api.get(`agendamento/psicologo/${userLogged?.psicologo?.id}`);
+      setSessions(response.data);
+      setRefreshing(true);
+    }
+    
+    if(userLogged.paciente !== null){
+      loadDataPaciente();
+    }else {
+      loadDataPsiclogo();
+    }
+  }
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -100,6 +118,12 @@ const ViewSessions: React.FC = () => {
             psicologo={item.psicologo}
           />
         )}
+        refreshControl={
+          <RefreshControl 
+            refreshing={refreshing}
+            onRefresh={_onRefresh}
+          />
+        }
       />
     </View>
   );

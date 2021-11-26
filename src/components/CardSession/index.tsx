@@ -2,7 +2,7 @@ import React from 'react';
 import { Image, Text } from 'react-native';
 
 import { styles } from './styles';
-import avatar from '../../assets/foto.png';
+import avatar from '../../assets/avatar_no_image.png';
 import { Button } from 'react-native-elements';
 import { ISession } from './types';
 import { useSelector } from 'react-redux';
@@ -13,7 +13,23 @@ const CardSession: React.FC<ISession> = ({ data, hora, paciente, psicologo }: IS
   return (
     <Button 
       icon={
-        <Image source={avatar}/>
+        userLogged.psicologo !== null 
+          ? 
+          <Image source={userLogged.psicologo === null ? avatar : {uri: `${userLogged?.psicologo?.imagem}`}}
+          style={{
+            width: 70,
+            height: 70,
+            borderRadius: 35,
+          }}
+        />
+        :
+        <Image source={userLogged.paciente === null ? avatar : {uri: `${userLogged?.paciente?.imagem}`}}
+          style={{
+            width: 70,
+            height: 70,
+            borderRadius: 35,
+          }}
+        />
       }
       iconPosition="left"
       buttonStyle={styles.container}
